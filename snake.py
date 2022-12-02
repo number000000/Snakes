@@ -1,5 +1,4 @@
-# skeleton code for project 2
-# vis 142 fall 2022 
+# vis 142 fall 2022 project 2
 # This can take 20 minutes to hours to run.
 
 # imports, don't change these but you can add imports you need
@@ -28,7 +27,7 @@ height = 500
 # Name and title, update to your name and title
 #####################################################################
 name = "Meihui Liu"
-title = "To be decided" 
+title = "SSSSnakes" 
 
 #####################################################################
 # IMPORTANT - you will get your start sequence number from your TA
@@ -64,10 +63,9 @@ def make_black():
        clock.tick(60)
         
 #############################################################
-# this object is just for example purposes - Don't use this class
-# unless of course to change it to be different from my circle foo
-# using objects will make project 2 generally easier however
-class ActiveCircle:
+# Object Sanke
+# Defines all the proporties of a snake object and makes it movable.
+class Snake:
     color = (15,15,15)
     prev_heading = 0
     heading = 0
@@ -79,11 +77,12 @@ class ActiveCircle:
     turningPosY = 0
     turning = 0
     length = 50
-    black = (0,0,0)
+    size = 1
 
     def __init__(self):
-        self.color = (random.randint(0, 128) + 127, random.randint(0, 128) + 127, random.randint(0, 128) + 127)
-        self.size = random.randint(0, width - int(width/3)) + width/3
+        self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
+        self.length = random.randint(2, width - int(width/4))
+        self.size = random.randint(2, 7)
         self.startPosX = random.randint(100, width-100) 
         self.startPosY = random.randint(100, height-100)
         self.heading = random.randint(0, 3)
@@ -134,60 +133,45 @@ class ActiveCircle:
         if (self.heading == 3): # heading down
             self.startPosY += 1
         #checking if we are done turning
-        print("endPosX " + str(self.endPosX) + "endPosY " + str(self.endPosY))
-        print("turningPosX " + str(self.turningPosX) + "turningPosY " + str(self.turningPosY))
-        print("startPosX " + str(self.startPosX) + "startPosY " + str(self.startPosY))
+        # print("endPosX " + str(self.endPosX) + " endPosY " + str(self.endPosY))
+        # print("turningPosX " + str(self.turningPosX) + " turningPosY " + str(self.turningPosY))
+        # print("startPosX " + str(self.startPosX) + " startPosY " + str(self.startPosY))
         if(self.prev_heading == 0 or self.prev_heading == 1):
             self.turning = int(self.endPosX != self.turningPosX)
         else:
             self.turning = int(self.endPosY != self.turningPosY)
         
     def move(self):
-        # here I am just messing around with circle size and postion
-        # for demo sake
-        # if (random.randint(0,1)):
-        #    self.size = self.size + random.randint(0,2)
-        #    self.locationSX = self.locationSX + random.randint(0,2)
-        #    self.locationSY = self.locationSY + random.randint(0,2)
-        #    self.locationEX = self.locationSX + random.randint(0,100)
-        #    self.locationEY = self.locationSY + random.randint(0,100)
-        # else:
-        #    self.size = self.size - random.randint(0,2)
-        #    self.locationSX = self.locationSX - random.randint(0,2)
-        #    self.locationSY = self.locationSY - random.randint(0,2)
-        #    self.locationEX = self.locationSX - random.randint(0,100)
-        #    self.locationEY = self.locationSY - random.randint(0,100)
-        #if (self.size > 300 or self.size < 50):
-        #    self.size = 125 
         if(not self.turning):
-            self.turning = random.randint(0, 1)
-            if(self.turning == 1):
+            p_turn = random.randint(0, 100)
+            if(p_turn > 98):
+                self.turning = 1
                 self.choose_turn_heading()
                 self.set_turning_point()
-                print("current " + str(self.heading))
-                print("prev " + str(self.prev_heading))
+                # print("CURRENT " + str(self.heading))
+                # print("PREV " + str(self.prev_heading))
         if(self.turning):
             self.turn()
-            pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.turningPosX, self.turningPosY), 1)
-            pygame.draw.line(screen, self.color, (self.turningPosX, self.turningPosY), (self.endPosX, self.endPosY), 1)
+            pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.turningPosX, self.turningPosY), self.size)
+            pygame.draw.line(screen, self.color, (self.turningPosX, self.turningPosY), (self.endPosX, self.endPosY), self.size)
         else:
             if (self.heading == 0): # heading right
-                print("right")
+                # print("right")
                 self.startPosX += 1
                 self.endPosX += 1
             if (self.heading == 1): # heading left
-                print("left")
+                # print("left")
                 self.startPosX -= 1
                 self.endPosX -= 1
             if (self.heading == 2): # heading up
-                print("up")
+                # print("up")
                 self.startPosY -= 1
                 self.endPosY -= 1
             if (self.heading == 3): # heading down
-                print("down")
+                # print("down")
                 self.startPosY += 1
                 self.endPosY += 1    
-            pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.endPosX, self.endPosY), 1)
+            pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.endPosX, self.endPosY), self.size)
 ################################ end object
 
 # this is the credits loop, which puts the title of your work
@@ -204,10 +188,10 @@ for i in range(0, 3*60):
     clock.tick(60)
 make_black() # one second black
 
-# make a list of active things
-active_circle_things = [ActiveCircle()]
-# for i in range (0, width + height):
-#     active_circle_things.append(ActiveCircle())
+# make a list of snakes (20 snakes)
+snakes = [Snake()]
+for i in range (0, 20):
+    snakes.append(Snake())
 
 # here is the main animation loop
 for i in range(0, 20*60): # 20*60 frames is 20 seconds
@@ -215,7 +199,7 @@ for i in range(0, 20*60): # 20*60 frames is 20 seconds
     # in the skeleton, your animation goes from here ########
     #########################################################
     screen.fill((0,0,0))
-    for thing in active_circle_things:
+    for thing in snakes:
         thing.move()
     #########################################################
     # to here ###############################################
