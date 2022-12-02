@@ -59,7 +59,7 @@ def make_black():
     screen.fill((0,0,0))
     pygame.display.update()
     for i in range(0, 60):
-       pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
+       # pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
        frame_num = frame_num + 1
        clock.tick(60)
         
@@ -69,12 +69,16 @@ def make_black():
 # using objects will make project 2 generally easier however
 class ActiveCircle:
     color = (15,15,15)
+    prev_heading = 0
     heading = 0
     startPosX = 0
     startPosY = 0
     endPosX = 0
     endPosY = 0
-    size = 50
+    turningPosX = 0
+    turningPosY = 0
+    turning = 0
+    length = 50
     black = (0,0,0)
 
     def __init__(self):
@@ -82,53 +86,62 @@ class ActiveCircle:
         self.size = random.randint(0, width - int(width/3)) + width/3
         self.startPosX = random.randint(100, width-100) 
         self.startPosY = random.randint(100, height-100)
-        self.heading()
+        self.heading = random.randint(0, 3)
+        self.prev_heading = self.heading
         if (self.heading == 0): # heading right
-            self.endPosX = self.startPosX + 50
+            self.endPosX = self.startPosX - self.length
             self.endPosY = self.startPosY
         if (self.heading == 1): # heading left
-            self.endPosX = self.startPosX - 50
+            self.endPosX = self.startPosX + self.length
             self.endPosY = self.startPosY
         if (self.heading == 2): # heading up
             self.endPosX = self.startPosX
-            self.endPosY = self.startPosY - 50
+            self.endPosY = self.startPosY + self.length
         if (self.heading == 3): # heading down
             self.endPosX = self.startPosX
-            self.endPosY = self.startPosY + 50
+            self.endPosY = self.startPosY - self.length
+    
+    def choose_turn_heading(self):
+        self.prev_heading = self.heading
+        up_down = [2, 3]
+        left_right = [1, 0]
+        if(self.prev_heading == 0 or self.prev_heading == 1):
+            self.heading = random.choice(up_down)
+        else:
+            self.heading = random.choice(left_right)
+    
+    def set_turning_point(self):
+        self.turningPosX = self.startPosX
+        self.turningPosY = self.startPosY
 
-    def status_check(self):
-        if((self.endPosX == width) or (self.endPosY == height)):
-            # tmp = random.randint(0, 3)
-            # while(tmp == self.heading):
-            #    tmp = random.randint(0, 3)
-            # self.heading = tmp
-            return 1
-        return 0
-    
-    def heading(self):
-        tmp = random.randint(0, 3)
-        while(tmp == self.heading):
-            tmp = random.randint(0, 3)
-        self.heading = tmp
-    
-    def turning(self):
+    def turn(self):
+        # Before the turning point, only end positions are changing
+        if (self.prev_heading == 0): # heading right
+            self.endPosX += 1
+        if (self.prev_heading == 1): # heading left
+            self.endPosX -= 1
+        if (self.prev_heading == 2): # heading up
+            self.endPosY -= 1
+        if (self.prev_heading == 3): # heading down
+            self.endPosY += 1
+        #After the turning point, only start positions are changing
         if (self.heading == 0): # heading right
             self.startPosX += 1
-            self.endPosX += 1
-            self.endPosY = self.startPosY
         if (self.heading == 1): # heading left
             self.startPosX -= 1
-            self.endPosX -= 1
-            self.endPosY = self.startPosY
         if (self.heading == 2): # heading up
             self.startPosY -= 1
-            self.endPosX = self.startPosX
-            self.endPosY -= 1
         if (self.heading == 3): # heading down
             self.startPosY += 1
-            self.endPosX = self.startPosX
-            self.endPosY += 1
-
+        #checking if we are done turning
+        print("endPosX " + str(self.endPosX) + "endPosY " + str(self.endPosY))
+        print("turningPosX " + str(self.turningPosX) + "turningPosY " + str(self.turningPosY))
+        print("startPosX " + str(self.startPosX) + "startPosY " + str(self.startPosY))
+        if(self.prev_heading == 0 or self.prev_heading == 1):
+            self.turning = int(self.endPosX != self.turningPosX)
+        else:
+            self.turning = int(self.endPosY != self.turningPosY)
+        
     def move(self):
         # here I am just messing around with circle size and postion
         # for demo sake
@@ -146,34 +159,35 @@ class ActiveCircle:
         #    self.locationEY = self.locationSY - random.randint(0,100)
         #if (self.size > 300 or self.size < 50):
         #    self.size = 125 
-        reaching_edge = self.status_check()
-        if(reaching_edge):
-            tmp = random.randint(0, 3)
-            while(tmp == self.heading):
-                tmp = random.randint(0, 3)
-            self.heading = tmp
-        pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.endPosX, self.endPosY), 1)
-        if (self.heading == 0): # heading right
-            self.startPosX += 1
-            self.endPosX += 1
-            self.endPosY = self.startPosY
-        if (self.heading == 1): # heading left
-            self.startPosX -= 1
-            self.endPosX -= 1
-            self.endPosY = self.startPosY
-        if (self.heading == 2): # heading up
-            self.startPosY -= 1
-            self.endPosX = self.startPosX
-            self.endPosY -= 1
-        if (self.heading == 3): # heading down
-            self.startPosY += 1
-            self.endPosX = self.startPosX
-            self.endPosY += 1
-        # pygame.draw.circle(screen, self.color, \
-        # (self.locationX, self.locationY), self.size, 1)
-
-        
-        
+        if(not self.turning):
+            self.turning = random.randint(0, 1)
+            if(self.turning == 1):
+                self.choose_turn_heading()
+                self.set_turning_point()
+                print("current " + str(self.heading))
+                print("prev " + str(self.prev_heading))
+        if(self.turning):
+            self.turn()
+            pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.turningPosX, self.turningPosY), 1)
+            pygame.draw.line(screen, self.color, (self.turningPosX, self.turningPosY), (self.endPosX, self.endPosY), 1)
+        else:
+            if (self.heading == 0): # heading right
+                print("right")
+                self.startPosX += 1
+                self.endPosX += 1
+            if (self.heading == 1): # heading left
+                print("left")
+                self.startPosX -= 1
+                self.endPosX -= 1
+            if (self.heading == 2): # heading up
+                print("up")
+                self.startPosY -= 1
+                self.endPosY -= 1
+            if (self.heading == 3): # heading down
+                print("down")
+                self.startPosY += 1
+                self.endPosY += 1    
+            pygame.draw.line(screen, self.color, (self.startPosX, self.startPosY), (self.endPosX, self.endPosY), 1)
 ################################ end object
 
 # this is the credits loop, which puts the title of your work
@@ -185,7 +199,7 @@ screen.blit(name_f, (int(width/8), int(width/8)))
 screen.blit(title_f, (int(width/8), int(width/4))) 
 for i in range(0, 3*60):
     pygame.display.update()
-    pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
+    # pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
     frame_num = frame_num + 1
     clock.tick(60)
 make_black() # one second black
@@ -202,7 +216,7 @@ for i in range(0, 20*60): # 20*60 frames is 20 seconds
     #########################################################
     screen.fill((0,0,0))
     for thing in active_circle_things:
-        thing.draw()
+        thing.move()
     #########################################################
     # to here ###############################################
     #########################################################
