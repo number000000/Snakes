@@ -1,3 +1,6 @@
+#####################################################################
+#       Snakes in this file can only take one turn at a time        #
+#####################################################################
 # vis 142 fall 2022 project 2
 # This can take 20 minutes to hours to run.
 
@@ -189,7 +192,7 @@ for i in range(0, 3*60):
 make_black() # one second black
 
 # make a list of snakes (20 snakes)
-snakes = [Snake()]
+snakes = []
 for i in range (0, 20):
     snakes.append(Snake())
 

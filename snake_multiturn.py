@@ -1,3 +1,6 @@
+#####################################################################
+#   Snakes in this file can take multiple turns at the same time    #
+#####################################################################
 # vis 142 fall 2022 project 2
 # This can take 20 minutes to hours to run.
 
