@@ -27,7 +27,7 @@ height = 1000
 # Name and title, update to your name and title
 #####################################################################
 name = "Meihui Liu"
-title = "SSSSnakes" 
+title = "SSSSnakeS" 
 
 #####################################################################
 # IMPORTANT - you will get your start sequence number from your TA
