@@ -20,11 +20,11 @@ start_time = time.time()
 # And then change these back to 4096 × 2160 for production.
 # On the other hand, you will have to deal with scaling issues if you do.
 #####################################################################
-width = 1000
-height = 1000
+#width = 1000
+#height = 1000
 
-#width = 4096 
-#height = 2160 
+width = 4096 
+height = 2160 
 
 #####################################################################
 # Name and title, update to your name and title
@@ -72,12 +72,12 @@ class Snake:
     def __init__(self):
         self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
         self.length = random.randint(2, width - int(width/4))
-        self.size = random.randint(10, 40)
+        self.size = random.randint(10, 25)
         self.heading = random.randint(0, 3)
         self.prev_heading = self.heading
         self.turning_points = []
-        startPosX = random.randint(100, width-100) 
-        startPosY = random.randint(100, height-100)
+        startPosX = random.randint(500, width-500) 
+        startPosY = random.randint(500, height-500)
         if (self.heading == 0): # heading right
             endPosX = startPosX - self.length
             endPosY = startPosY
