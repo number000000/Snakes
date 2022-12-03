@@ -58,4 +58,6 @@ for i in range (0, 35): #Change Here
     snakes.append(Snake())
 ```
 Change the range to modify how many snakes you want in a video. \
-eg. `for i in range (0, 40)` will give you 40 snakes in a video.
+eg. `for i in range (0, 40)` will give you 40 snakes in a video. \
+\
+![many snakes demo](/misc/many-snake-turns-inScreen.gif)
