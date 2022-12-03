@@ -20,11 +20,11 @@ start_time = time.time()
 # And then change these back to 4096 × 2160 for production.
 # On the other hand, you will have to deal with scaling issues if you do.
 #####################################################################
-#width = 1000
-#height = 1000
+width = 1000
+height = 500
 
-width = 4096 
-height = 2160 
+# width = 4096 
+# height = 2160 
 
 #####################################################################
 # Name and title, update to your name and title
@@ -71,13 +71,13 @@ def make_black():
 class Snake:
     def __init__(self):
         self.color = (random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
-        self.length = random.randint(2, width - int(width/4))
-        self.size = random.randint(10, 25)
+        self.length = random.randint(2, width - int(width/3))
+        self.size = random.randint(3, 6)
         self.heading = random.randint(0, 3)
         self.prev_heading = self.heading
         self.turning_points = []
-        startPosX = random.randint(500, width-500) 
-        startPosY = random.randint(500, height-500)
+        startPosX = random.randint(50, width-50) 
+        startPosY = random.randint(50, height-50)
         if (self.heading == 0): # heading right
             endPosX = startPosX - self.length
             endPosY = startPosY
@@ -192,7 +192,7 @@ class Snake:
 
     def draw(self):
         p_turn = random.randint(0, 100)
-        if(p_turn > 98):
+        if(p_turn > 99):
             self.choose_turn_heading()
             self.set_turning_point()
             # print("CURRENT " + str(self.heading))
@@ -210,7 +210,7 @@ make_black() # one second black
 screen.fill((0,0,0))
 screen.blit(name_f, (int(width/8), int(width/8)))
 screen.blit(title_f, (int(width/8), int(width/4))) 
-for i in range(0, 3*60):
+for i in range(0, 3*60): # three seconds of title and name
     pygame.display.update()
     pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
     frame_num = frame_num + 1
@@ -219,7 +219,7 @@ make_black() # one second black
 
 # make a list of snakes (35 snakes)
 snakes = []
-for i in range (0, 35):
+for i in range (0, 1):
     snakes.append(Snake())
 
 # here is the main animation loop

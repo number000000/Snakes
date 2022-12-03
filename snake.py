@@ -61,7 +61,7 @@ def make_black():
     screen.fill((0,0,0))
     pygame.display.update()
     for i in range(0, 60):
-       # pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
+       pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
        frame_num = frame_num + 1
        clock.tick(60)
         
@@ -184,9 +184,9 @@ make_black() # one second black
 screen.fill((0,0,0))
 screen.blit(name_f, (int(width/8), int(width/8)))
 screen.blit(title_f, (int(width/8), int(width/4))) 
-for i in range(0, 3*60):
+for i in range(0, 3*60): # three seconds of title and name
     pygame.display.update()
-    # pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
+    pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
     frame_num = frame_num + 1
     clock.tick(60)
 make_black() # one second black
@@ -211,7 +211,7 @@ for i in range(0, 20*60): # 20*60 frames is 20 seconds
     # The next line can be commented out to speed up testing frame rate
     # by not writing the file. But for output to final frames,
     # you will need to ucomment it.
-    #pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
+    pygame.image.save(screen, "./frames/" + str(frame_num) + ".png")
     frame_num = frame_num + 1
     pygame.display.update()
     clock.tick(60)
@@ -225,5 +225,5 @@ pygame.quit()
 exit()
 
 # you can make your files into a movie with ffmpeg:
-# ffmpeg -r 60 -start_number 1000000 -s 4096x2160 -i %d.png -vcodec libx264 -crf 5 -pix_fmt yuv420p final.mp4
+# ffmpeg -r 60 -start_number 1000000 -s 4096x2160 -i %d.png -vcodec libx264 -crf 31 -pix_fmt yuv420p final.mp4
 # with a few changes such as to start number, but this is just extra info here
