@@ -21,7 +21,7 @@ Check pygame documentation for more information: https://www.pygame.org/docs/
 [Download here](https://ffmpeg.org/download.html)
 
 ## How to get the video
-First move inside the `frames` folder.
+First move inside the `frames` folder. \
 Since the program generates frames (images ends in .png) in the folder `frames` (You will have to have this folder for the program to run), you will have to run the following command to merge the frames into a video:
 ```
 ffmpeg -r 60 -start_number 1000000 -s 4096x2160 -i %d.png -vcodec libx264 -crf 31 -pix_fmt yuv420p final.mp4
@@ -50,3 +50,12 @@ for i in range(0, 20*60): # Change Here
 ```
 The for loop generates 60 frames for one second. Change 20 to any other length of time. eg. 30*60 generates 30 seconds of 60-frame video. \
 **Note** There will always be 3 seconds of title and 1 second of black screen before the snake videos.
+
+### Change the number of snakes in a video
+```python
+snakes = []
+for i in range (0, 35): #Change Here
+    snakes.append(Snake())
+```
+Change the range to modify how many snakes you want in a video. \
+eg. `for i in range (0, 40)` will give you 40 snakes in a video.

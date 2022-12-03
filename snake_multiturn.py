@@ -217,9 +217,9 @@ for i in range(0, 3*60): # three seconds of title and name
     clock.tick(60)
 make_black() # one second black
 
-# make a list of snakes (35 snakes)
+# make a list of snakes
 snakes = []
-for i in range (0, 1):
+for i in range (0, 35):
     snakes.append(Snake())
 
 # here is the main animation loop
